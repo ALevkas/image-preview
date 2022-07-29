@@ -30,6 +30,8 @@ const Picture = (props: IPictureProps): JSX.Element => {
       <div className={styles.picture}>
         {boxContainer.map((box) => (
           <div
+            title={box.text.length > 20 ? box.text : ''}
+            className={styles.text}
             onClick={() => {
               textRef.current?.focus();
               setCurrentId(box.id);
@@ -37,11 +39,9 @@ const Picture = (props: IPictureProps): JSX.Element => {
             key={+box.id}
             style={{
               border: `${box.id === currentId ? '1px dashed black' : 'none'}`,
-              position: 'absolute',
+              color: `${box.text === 'type here' ? 'grey' : 'black'}`,
               top: `${box.coordinates.top}%`,
               left: `${box.coordinates.left}%`,
-              fontSize: '2vw',
-              color: `${box.text === 'type here' ? 'grey' : 'black'}`,
             }}
           >
             {box.text}

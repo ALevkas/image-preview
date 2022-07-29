@@ -10,14 +10,14 @@ interface IBoxItem {
 }
 
 interface IUsePicture {
-  boxContainer: IBoxItem[];
-  removeBoxContainer: () => void;
-  imgRef: React.RefObject<HTMLImageElement>;
-  textRef: React.RefObject<HTMLInputElement>;
-  handleTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   textValue: string;
   currentId: number;
+  boxContainer: IBoxItem[];
+  imgRef: React.RefObject<HTMLImageElement>;
+  textRef: React.RefObject<HTMLInputElement>;
+  removeBoxContainer: () => void;
   setCurrentId: (id: number) => void;
+  handleTextChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const usePicture = (): IUsePicture => {
@@ -33,9 +33,6 @@ const usePicture = (): IUsePicture => {
   };
 
   const handleAddBox = (e: MouseEvent): void => {
-    setCurrentId(-1);
-    setTextValue('');
-
     const element = e.target as HTMLElement;
     const rect = element.getBoundingClientRect();
     const top = (100 * e.offsetY) / rect.height - 1;
@@ -85,8 +82,10 @@ const usePicture = (): IUsePicture => {
   }, [textValue]);
 
   useEffect(() => {
-    const onClick = (e: MouseEvent): boolean | void =>
-      imgRef.current?.contains(e.target as Node) && handleAddBox(e);
+    const onClick = (e: MouseEvent): boolean | void => {
+      setBoxContainer((prev) => prev.filter((elem) => elem.text !== 'type here'));
+      if (imgRef.current?.contains(e.target as Node)) handleAddBox(e);
+    };
 
     document.addEventListener('click', onClick);
 
