@@ -1,7 +1,6 @@
 import React from 'react';
-import './App.css';
-import { Loader } from 'components';
+import { Main } from 'components';
 
-const App = () => <Loader />;
+const App = (): JSX.Element => <Main />;
 
 export default App;
